@@ -23,3 +23,9 @@ History:
   
  **2022-10-12:**  
  <pre>Imported last year's machine learning work into this repository</pre>  
+
+
+## How to Run the Program:
+- Navigate to the base directory of this repository
+- Ensure the USB webcam and Google Coral are connected
+- **python3 test_camera.py**
