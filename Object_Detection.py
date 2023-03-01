@@ -18,8 +18,8 @@ import tflite_runtime.interpreter as tflite
 
 from PIL import Image
 
-CAMERA_WIDTH = 320*2  #640
-CAMERA_HEIGHT = 240*2 #480
+CAMERA_WIDTH = 320  #640 to fill whole screen, 320 for GUI component
+CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
  
 
 def load_labels(label_path):
