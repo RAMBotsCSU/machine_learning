@@ -14,7 +14,9 @@ Files:
 | File        | Description           |
 | ------------- |-------------|
 | README      | this file |
-| todo        |       |
+| data        |  machine learning model and labels     |
+| test_programs        | test programs used in creating object_detection.py      |
+| object_detection.py        | python object detection using webcam and Google Coral      |
 
 
   
@@ -24,6 +26,8 @@ History:
  **2022-10-12:**  
  <pre>Imported last year's machine learning work into this repository</pre>  
 
+ **2023-03-01:**  
+ <pre>Reorganized repo and renamed files, added some comments</pre>  
 
 ## How to Run the Program:
 - Navigate to the base directory of this repository
