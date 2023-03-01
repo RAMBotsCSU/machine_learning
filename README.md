@@ -31,5 +31,5 @@ History:
 
 ## How to Run the Program:
 - Navigate to the base directory of this repository
-- Ensure the USB webcam and Google Coral are connected
+- Ensure the USB webcam, Google Coral, and Pi fan are connected, 
 - **python3 test_camera.py**
