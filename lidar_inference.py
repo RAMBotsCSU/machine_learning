@@ -17,8 +17,7 @@ from pycoral.adapters import classify
 # import tflite_runtime.interpreter as tflite
 
 def load_model(model_path):
-    r"""Load TFLite model, returns a Interpreter instance."""
-    
+    print('before here')
     #interpreter = tflite.Interpreter(model_path=model_path,experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
     interpreter = edgetpu.make_interpreter(model_path, device = 'usb')
     print('got here')
