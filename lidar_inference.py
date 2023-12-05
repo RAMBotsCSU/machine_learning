@@ -20,17 +20,15 @@ if __name__ == "__main__":
 
     model_path = 'lidar_model_quantized_edgetpu.tflite'
 
-    try:
-        print("Before make inter")
-        interpreter = edgetpu.make_interpreter(model_path, device='usb')
-        print("Before allocate")
-        interpreter.allocate_tensors()
-    except Exception as e:
-        print(f"Error during interpreter initialization: {e}")
+    interpreter = edgetpu.make_interpreter(model_path, device='usb')
+    interpreter.allocate_tensors()
+
+    print("Allocated tensors")
     
-    # input_details = interpreter.get_input_details()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
+
+    print("Got details")
 
     # Set input tensor data
     fake_lidar_data = [1000] * 360
@@ -39,13 +37,17 @@ if __name__ == "__main__":
     input_tensor = common.input_tensor(interpreter)
     common.set_input(input_tensor, fake_lidar_data)
 
+    print("Preprocess complete")
+
     # Run inference
     interpreter.invoke()
+
+    print("Inference complete")
 
     # Get the output tensor
     output_tensor = common.output_tensor(interpreter)
 
-    print(output_tensor)
+    print("Output:", output_tensor)
 
 
 
