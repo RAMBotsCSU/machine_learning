@@ -16,14 +16,6 @@ from pycoral.adapters import classify
 
 # import tflite_runtime.interpreter as tflite
 
-def load_model(model_path):
-    print('before here')
-    #interpreter = tflite.Interpreter(model_path=model_path,experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
-    interpreter = edgetpu.make_interpreter(model_path, device = 'usb')
-    print('got here')
-    interpreter.allocate_tensors()
-    return interpreter
-
 if __name__ == "__main__":
 
     model_path = 'lidar_model_quantized_edgetpu.tflite'
@@ -35,32 +27,25 @@ if __name__ == "__main__":
         interpreter.allocate_tensors()
     except Exception as e:
         print(f"Error during interpreter initialization: {e}")
-
-    # interpreter = edgetpu.make_interpreter(model_path, device='usb')
-
-    # # Allocate tensor memory
-    # interpreter.allocate_tensors()
-
-    # interpreter = load_model(model_path)
     
-    # # input_details = interpreter.get_input_details()
     # input_details = interpreter.get_input_details()
-    # output_details = interpreter.get_output_details()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
 
-    # # Set input tensor data
-    # fake_lidar_data = [1000] * 360
+    # Set input tensor data
+    fake_lidar_data = [1000] * 360
 
-    # # Preprocess the input image
-    # input_tensor = common.input_tensor(interpreter)
-    # common.set_input(input_tensor, fake_lidar_data)
+    # Preprocess the input image
+    input_tensor = common.input_tensor(interpreter)
+    common.set_input(input_tensor, fake_lidar_data)
 
-    # # Run inference
-    # interpreter.invoke()
+    # Run inference
+    interpreter.invoke()
 
-    # # Get the output tensor
-    # output_tensor = common.output_tensor(interpreter)
+    # Get the output tensor
+    output_tensor = common.output_tensor(interpreter)
 
-    # print(output_tensor)
+    print(output_tensor)
 
 
 
