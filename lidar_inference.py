@@ -34,7 +34,8 @@ if __name__ == "__main__":
     fake_lidar_data = [1000] * 360
 
     # Preprocess the input image
-    common.set_input(interpreter, fake_lidar_data)
+    input_tensor = interpreter.tensor(interpreter.get_input_details()[0]['index'])
+    input_tensor()[0] = fake_lidar_data
 
     print("Preprocess complete")
 
