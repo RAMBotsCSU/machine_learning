@@ -18,7 +18,8 @@ if __name__ == "__main__":
     print("Got details")
 
     # Set input tensor data
-    fake_lidar_data = [1000] * 360
+    fake_lidar_data = np.array([1000] * 360, dtype=np.float32)
+    fake_lidar_data = fake_lidar_data.reshape(1, -1)
     scaler_X = MinMaxScaler()
     normalized_lidar_view = scaler_X.fit_transform(fake_lidar_data)
 
