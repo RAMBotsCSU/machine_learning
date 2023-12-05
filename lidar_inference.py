@@ -23,7 +23,6 @@ if __name__ == "__main__":
     scaler_X = MinMaxScaler()
     normalized_lidar_view = scaler_X.fit_transform(fake_lidar_data)
 
-    # Preprocess the input image
     input_tensor = interpreter.tensor(interpreter.get_input_details()[0]['index'])
     input_tensor()[0] = normalized_lidar_view
 
