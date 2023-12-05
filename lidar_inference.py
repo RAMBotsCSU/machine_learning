@@ -26,12 +26,18 @@ def load_model(model_path):
 
 if __name__ == "__main__":
 
-    model_path = './lidar_model_quantized.tflite'
+    model_path = 'lidar_model_quantized.tflite'
 
-    interpreter = edgetpu.make_interpreter(model_path, device='usb')
+    try:
+        interpreter = edgetpu.make_interpreter(model_path, device='usb')
+        interpreter.allocate_tensors()
+    except Exception as e:
+        print(f"Error during interpreter initialization: {e}")
 
-    # Allocate tensor memory
-    interpreter.allocate_tensors()
+    # interpreter = edgetpu.make_interpreter(model_path, device='usb')
+
+    # # Allocate tensor memory
+    # interpreter.allocate_tensors()
 
     # interpreter = load_model(model_path)
     
