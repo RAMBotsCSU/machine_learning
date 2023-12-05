@@ -29,7 +29,9 @@ if __name__ == "__main__":
     model_path = 'lidar_model_quantized.tflite'
 
     try:
+        print("Before make inter")
         interpreter = edgetpu.make_interpreter(model_path, device='usb')
+        print("Before allocate")
         interpreter.allocate_tensors()
     except Exception as e:
         print(f"Error during interpreter initialization: {e}")
