@@ -26,7 +26,7 @@ def load_model(model_path):
 
 if __name__ == "__main__":
 
-    model_path = 'lidar_model_quantized.tflite'
+    model_path = 'lidar_model_quantized_edgetpu.tflite'
 
     try:
         print("Before make inter")
