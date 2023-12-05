@@ -1,20 +1,7 @@
-"""
-Run object detection on images, Press ESC to exit the program
-For Raspberry PI, please use `import tflite_runtime.interpreter as tflite` instead
-"""
-import re
-import cv2
 import numpy as np
-import time
 from pycoral.utils import edgetpu
-from pycoral.utils import dataset
-from pycoral.adapters import common
-from pycoral.adapters import classify
+from sklearn.preprocessing import MinMaxScaler
 
-
-#import tensorflow.lite as tflite
-
-# import tflite_runtime.interpreter as tflite
 
 if __name__ == "__main__":
 
@@ -32,10 +19,12 @@ if __name__ == "__main__":
 
     # Set input tensor data
     fake_lidar_data = [1000] * 360
+    scaler_X = MinMaxScaler()
+    normalized_lidar_view = scaler_X.fit_transform(fake_lidar_data)
 
     # Preprocess the input image
     input_tensor = interpreter.tensor(interpreter.get_input_details()[0]['index'])
-    input_tensor()[0] = fake_lidar_data
+    input_tensor()[0] = normalized_lidar_view
 
     print("Preprocess complete")
 
