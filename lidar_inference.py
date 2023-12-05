@@ -34,8 +34,7 @@ if __name__ == "__main__":
     fake_lidar_data = [1000] * 360
 
     # Preprocess the input image
-    input_tensor = common.input_tensor(interpreter)
-    common.set_input(input_tensor, fake_lidar_data)
+    common.set_input(interpreter, fake_lidar_data)
 
     print("Preprocess complete")
 
@@ -47,7 +46,10 @@ if __name__ == "__main__":
     # Get the output tensor
     output_tensor = common.output_tensor(interpreter)
 
-    print("Output:", output_tensor)
+    # Get the output values as a NumPy array
+    output_values = np.array(output_tensor())
+
+    print("Output:", output_values)
 
 
 
