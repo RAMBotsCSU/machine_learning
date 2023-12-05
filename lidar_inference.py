@@ -7,7 +7,6 @@ import cv2
 import numpy as np
 import time
 from pycoral.utils import edgetpu
-from edgetpu import edgetpu_runtime
 from pycoral.utils import dataset
 from pycoral.adapters import common
 from pycoral.adapters import classify
@@ -30,7 +29,7 @@ if __name__ == "__main__":
     model_path = 'lidar_model_quantized.tflite'
 
     model_path = '/path/to/your/model_quantized.tflite'
-    interpreter = edgetpu_runtime.make_interpreter(model_path, device='usb')
+    interpreter = edgetpu.edgetpu_runtime.make_interpreter(model_path, device='usb')
 
     # Allocate tensor memory
     interpreter.allocate_tensors()
