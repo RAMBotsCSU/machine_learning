@@ -26,10 +26,9 @@ def load_model(model_path):
 
 if __name__ == "__main__":
 
-    model_path = 'lidar_model_quantized.tflite'
+    model_path = './lidar_model_quantized.tflite'
 
-    model_path = '/path/to/your/model_quantized.tflite'
-    interpreter = edgetpu.edgetpu_runtime.make_interpreter(model_path, device='usb')
+    interpreter = edgetpu.make_interpreter(model_path, device='usb')
 
     # Allocate tensor memory
     interpreter.allocate_tensors()
