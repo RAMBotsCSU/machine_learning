@@ -48,7 +48,7 @@ if __name__ == "__main__":
     output_tensor = interpreter.tensor(output_details[0]['index'])
 
     # Get the output values as a NumPy array
-    output_values = np.array(output_tensor)
+    output_values = np.array(output_tensor())
 
     print("Output:", output_values)
 
