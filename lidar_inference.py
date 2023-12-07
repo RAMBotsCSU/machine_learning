@@ -23,7 +23,7 @@ if __name__ == "__main__":
     fake_lidar_data = fake_lidar_data.reshape(-1, 1)
     scaler_X = MinMaxScaler()
     normalized_lidar_view = scaler_X.fit_transform(fake_lidar_data)
-    normalized_lidar_view = normalized_lidar_view.flatten()
+    # normalized_lidar_view = normalized_lidar_view.flatten()
     normalized_lidar_view = np.expand_dims(normalized_lidar_view, axis=-1)
     
 
