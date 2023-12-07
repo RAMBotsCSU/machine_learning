@@ -28,7 +28,8 @@ if __name__ == "__main__":
     
 
     input_tensor = interpreter.tensor(interpreter.get_input_details()[0]['index'])
-    input_tensor()[0] = normalized_lidar_view
+    # input_tensor()[0] = normalized_lidar_view
+    input_tensor()[0][:] = normalized_lidar_view
 
     print("Preprocess complete")
 
