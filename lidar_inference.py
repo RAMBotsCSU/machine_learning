@@ -17,8 +17,8 @@ def preprocess_lidar_data(lidar_data):
     return data_mapped
 
 if __name__ == "__main__":
-
-    model_path = 'lidar_model_quantized_edgetpu.tflite'
+    
+    model_path = 'lidar\lidar_model_quantized_edgetpu.tflite'
 
     interpreter = edgetpu.make_interpreter(model_path, device='usb')
     interpreter.allocate_tensors()
