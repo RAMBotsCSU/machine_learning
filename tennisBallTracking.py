@@ -27,7 +27,8 @@ def load_model(model_path):
 
 def process_image(interpreter, image, input_index):
     r"""Process an image, Return a list of detected class ids and positions"""
-    input_data = np.expand_dims(image, axis=0)  # expand to 4-dim
+    input_data = (np.array(image) / 255.0).astype(np.float32)
+    input_data = input_data.reshape((1, 224, 224, 3))
 
     # Process
     interpreter.set_tensor(input_index, input_data)
@@ -54,7 +55,7 @@ def process_image(interpreter, image, input_index):
 
     return result
 
-def display_result(result, frame, labels):
+def display_result(result, frame):
     r"""Display Detected Objects"""
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
@@ -74,8 +75,6 @@ def display_result(result, frame, labels):
 
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
-        
-        print(labels[_id])
 
     cv2.imshow('Object Detection', frame)
 
@@ -120,7 +119,7 @@ if __name__ == "__main__":
         top_result = process_image(interpreter, image, input_index)
 
         end = time.time()
-        display_result(top_result, frame, labels)
+        display_result(top_result, frame)
         fps = round(1/(end-start_time),2)
         #if(round(time.time()) % 2 == 0):
             #print('FPS: ' + str(fps))
