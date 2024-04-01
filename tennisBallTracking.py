@@ -80,7 +80,7 @@ def display_result(result, frame):
 
 if __name__ == "__main__":
 
-    model_path = 'tennisBall/tennisBallTracking.tflite'
+    model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
 
     # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
