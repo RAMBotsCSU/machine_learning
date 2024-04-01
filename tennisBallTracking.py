@@ -14,7 +14,7 @@ import tflite_runtime.interpreter as tflite
 
 from PIL import Image
 
-CAMERA_WIDTH = 320  #640 to fill whole screen, 320 for GUI component
+CAMERA_WIDTH = 640  #640 to fill whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
 
 def load_model(model_path):
