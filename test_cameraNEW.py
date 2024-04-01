@@ -134,7 +134,9 @@ if __name__ == "__main__":
     while True:
         ret, frame = cap.read()
         
-        
+        if not ret:
+            print('Capture failed')
+            break
 
         image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         image = image.resize((width, height))
