@@ -72,10 +72,10 @@ def display_result(result, frame):
         pos = obj['pos']
         scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
         scale_y = CAMERA_HEIGHT / INPUT_WIDTH_AND_HEIGHT
-        x1 = int(pos[1] * scale_x)
-        x2 = int(pos[3] * scale_x)
-        y1 = int(pos[0] * scale_y)
-        y2 = int(pos[2] * scale_y)
+        x1 = int(pos[0] * scale_x)
+        x2 = int(pos[2] * scale_x)
+        y1 = int(pos[1] * scale_y)
+        y2 = int(pos[3] * scale_y)
 
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
