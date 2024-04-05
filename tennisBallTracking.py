@@ -27,7 +27,7 @@ def load_model(model_path):
 
 def process_image(interpreter, image, input_index):
     r"""Process an image, Return a list of detected class ids and positions"""
-    input_data = (np.array(image) / 255.0).astype(np.uint8)
+    input_data = (np.array(image)).astype(np.uint8)
     input_data = input_data.reshape((1, 224, 224, 3))
 
     # Process
