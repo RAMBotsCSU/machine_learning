@@ -69,7 +69,7 @@ def display_result(result, frame):
     # y * CAMERA_HEIGHT
     for obj in result:
         pos = obj['pos']
-
+        print(pos)
         x1 = int(pos[1] * CAMERA_WIDTH)
         x2 = int(pos[3] * CAMERA_WIDTH)
         y1 = int(pos[0] * CAMERA_HEIGHT)
