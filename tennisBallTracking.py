@@ -16,6 +16,7 @@ from PIL import Image
 
 CAMERA_WIDTH = 640  #640 to fill whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
+INPUT_WIDTH_AND_HEIGHT = 224
 
 def load_model(model_path):
     r"""Load TFLite model, returns a Interpreter instance."""
@@ -69,11 +70,12 @@ def display_result(result, frame):
     # y * CAMERA_HEIGHT
     for obj in result:
         pos = obj['pos']
-        print(pos)
-        x1 = int(pos[1] * CAMERA_WIDTH)
-        x2 = int(pos[3] * CAMERA_WIDTH)
-        y1 = int(pos[0] * CAMERA_HEIGHT)
-        y2 = int(pos[2] * CAMERA_HEIGHT)
+        scale_x = INPUT_WIDTH_AND_HEIGHT / CAMERA_WIDTH
+        scale_y = INPUT_WIDTH_AND_HEIGHT / CAMERA_HEIGHT
+        x1 = pos[1] * scale_x
+        x2 = pos[3] * scale_x
+        y1 = pos[0] * scale_y
+        y2 = pos[2] * scale_y
 
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
