@@ -70,8 +70,8 @@ def display_result(result, frame):
     # y * CAMERA_HEIGHT
     for obj in result:
         pos = obj['pos']
-        scale_x = INPUT_WIDTH_AND_HEIGHT / CAMERA_WIDTH
-        scale_y = INPUT_WIDTH_AND_HEIGHT / CAMERA_HEIGHT
+        scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
+        scale_y = CAMERA_HEIGHT / INPUT_WIDTH_AND_HEIGHT
         x1 = int(pos[1] * scale_x)
         x2 = int(pos[3] * scale_x)
         y1 = int(pos[0] * scale_y)
