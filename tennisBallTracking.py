@@ -42,7 +42,7 @@ def process_image(interpreter, image, input_index):     # Process an image, Retu
         if score > 0.99:
             result.append({'pos': positions[idx]})
 
-    return result
+    return conf, result
 
 def rescale_position(positions):
     coords = []
@@ -87,16 +87,15 @@ def filter_coordinates(coordinates_matrix):
 
     return final_x0, final_y0, final_x1, final_y1
 
-def bbox_x_direction_center_point(x0, x1):
-    return int((x0 + x1) / 2)
+def bbox_one_direction_center_point(p0, p1):
+    return int((p0 + p1) / 2)
 
-def display_result(positions, center, frame):       #Display Detected Objects
+def display_result(positions, frame):       #Display Detected Objects
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
     color = (255, 255, 0)  # Blue color
     thickness = 2
 
-    center_coordinates = (int(center[0]), int(center[1]))
     x0 = positions[0]
     y0 = positions[1]
     x1 = positions[2]
@@ -104,13 +103,13 @@ def display_result(positions, center, frame):       #Display Detected Objects
 
     cv2.putText(frame, 'Tennis Ball', (x0, y0), font, size, color, thickness)
     cv2.rectangle(frame, (x0, y0), (x1, y1), color, thickness)
-    cv2.circle(frame, center_coordinates, 1, (0, 0, 255), 5)
 
     cv2.imshow('Object Detection', frame)
 
 if __name__ == "__main__":
     coordinates_matrix = []                            # List to store the coordinates of the detected object
     top_result = []
+
     model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
 
     cap = cv2.VideoCapture(0)
@@ -130,7 +129,7 @@ if __name__ == "__main__":
     input_index = input_details[0]['index']             # Get input index
 
     while True:                                         # Process Stream
-        for frame in range(FRAME_COUNT):
+        for frame_count in range(FRAME_COUNT):
             ret, frame = cap.read()
             if not ret:
                 print('Capture failed')
@@ -139,12 +138,13 @@ if __name__ == "__main__":
             image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             image = image.resize((width, height))
 
-            result = process_image(interpreter, image, input_index)
+            conf, result = process_image(interpreter, image, input_index)
 
-            rescale_position(result)
-            x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
-            top_result = [x0, y0, x1, y1]
-            bbox_center_x = bbox_x_direction_center_point(x0, x1)
+            if conf > 0.99:
+                rescale_position(result)
+                x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
+                top_result = [x0, y0, x1, y1]
+                bbox_center_x = bbox_one_direction_center_point(x0, x1)
 
         display_result(top_result, frame)
 
