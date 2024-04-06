@@ -142,8 +142,8 @@ if __name__ == "__main__":
             result = process_image(interpreter, image, input_index)
 
             rescale_position(result)
-            x0, y0, x1, x0 = filter_coordinates()
-            top_result = [x0, y0, x1, y0]
+            x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
+            top_result = [x0, y0, x1, y1]
             bbox_center_x = bbox_x_direction_center_point(x0, x1)
 
         display_result(top_result, frame)
