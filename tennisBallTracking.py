@@ -54,9 +54,7 @@ def process_image(interpreter, image, input_index):
 
     for idx, score in enumerate(conf):
         if score > 0.99:
-            #result.append({'pos': positions[idx]})
-            result = positions[idx]
-            print(result)
+            result.append({'pos': positions[idx]})
 
     return result
 
@@ -70,18 +68,17 @@ def display_result(result, frame):
     # position = [ymin, xmin, ymax, xmax]
     # x * CAMERA_WIDTH
     # y * CAMERA_HEIGHT
-    #pos = obj['pos']
-    pos = result
-    print(pos)
-    scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
-    scale_y = CAMERA_HEIGHT / INPUT_WIDTH_AND_HEIGHT
-    x1 = int(pos[0] * scale_x)
-    y1 = int(pos[1] * scale_y)
-    x2 = int(pos[2] * scale_x)
-    y2 = int(pos[3] * scale_y)
+    for obj in result:
+        pos = obj['pos']
+        scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
+        scale_y = CAMERA_HEIGHT / INPUT_WIDTH_AND_HEIGHT
+        x1 = int(pos[0] * scale_x)
+        y1 = int(pos[1] * scale_y)
+        x2 = int(pos[2] * scale_x)
+        y2 = int(pos[3] * scale_y)
 
-    cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
-    cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
+        cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
     cv2.imshow('Object Detection', frame)
 
