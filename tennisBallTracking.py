@@ -109,7 +109,7 @@ def display_result(positions, frame):       #Display Detected Objects
 if __name__ == "__main__":
     coordinates_matrix = []                            # List to store the coordinates of the detected object
     top_result = []
-
+    detection_flag = False
     model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
 
     cap = cv2.VideoCapture(0)
@@ -141,12 +141,20 @@ if __name__ == "__main__":
             conf, result = process_image(interpreter, image, input_index)
 
             if conf > 0.99:
+                detection_flag = True
                 rescale_position(result)
                 x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
                 top_result = [x0, y0, x1, y1]
                 bbox_center_x = bbox_one_direction_center_point(x0, x1)
-
-        display_result(top_result, frame)
+        
+        if detection_flag:
+            if bbox_center_x < CENTER_X:
+                print('Move Right')
+            else:
+                print('Move Left')
+            display_result(top_result, frame)
+        else:
+            display_result([0, 0, 0, 0], frame)
 
         key = cv2.waitKey(1)
         if key == 27:  # esc
