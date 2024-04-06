@@ -55,7 +55,8 @@ def process_image(interpreter, image, input_index):
     for idx, score in enumerate(conf):
         if score > 0.99:
             #result.append({'pos': positions[idx]})
-            result = positions[0][idx]
+            result = positions[idx]
+            print(result)
 
     return result
 
