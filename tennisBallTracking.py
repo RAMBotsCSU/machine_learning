@@ -8,7 +8,7 @@ from pycoral.adapters import common
 from pycoral.adapters import classify
 from PIL import Image
 
-FRAME_COUNT = 10
+FRAME_COUNT = 5
 STD_DEV_FACTOR = 2                                              # Threshold factor to determine if the object is detected or not
 CENTER_X = 320
 
