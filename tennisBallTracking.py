@@ -45,6 +45,7 @@ def process_image(interpreter, image, input_index):     # Process an image, Retu
     return result
 
 def rescale_position(positions):
+    coords = []
     for obj in positions:
         pos = obj['pos']
         scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
