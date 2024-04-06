@@ -50,7 +50,7 @@ def process_image(interpreter, image, input_index):
     print(conf)
     print(positions)
     print('\n')
-    #result = []
+    result = []
 
     for idx, score in enumerate(conf):
         if score > 0.99:
