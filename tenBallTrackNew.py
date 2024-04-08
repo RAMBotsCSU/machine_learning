@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
             if conf > 0.99:
                 detection_flag = True
-                rescale_position(result)
+                coordinates_matrix.append(rescale_position(result))
                 x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
                 top_result = [x0, y0, x1, y1]
                 bbox_center_x = bbox_one_direction_center_point(x0, x1)
