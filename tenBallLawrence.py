@@ -78,16 +78,8 @@ def display_result(result, frame):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
         center = bboxCenterPoint(x1, y1, x2, y2)
-
-        vector_x = calculate_direction(center[0])
-
-        if vector_x > (width/2):
-           print("Turn Right!")
-        elif vector_x < (width/2):
-            print("Turn Left!")
-        else:
-            print(vector_x)
-
+        calculate_direction(center)
+        
     cv2.imshow('Object Detection', frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
