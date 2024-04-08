@@ -6,47 +6,69 @@ from pycoral.utils import edgetpu
 from pycoral.utils import dataset
 from pycoral.adapters import common
 from pycoral.adapters import classify
-from PIL import Image
 
-FRAME_COUNT = 5
-STD_DEV_FACTOR = 2                                              # Threshold factor to determine if the object is detected or not
-CENTER_X = 320
 
 #import tensorflow.lite as tflite
+
 import tflite_runtime.interpreter as tflite
+
+from PIL import Image
 
 CAMERA_WIDTH = 640  #640 to fill whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
 INPUT_WIDTH_AND_HEIGHT = 224
 
-def load_model(model_path):                             # Load TFLite model, returns a Interpreter instance.
+def load_model(model_path):
+    r"""Load TFLite model, returns a Interpreter instance."""
+    
     interpreter = edgetpu.make_interpreter(model_path, device = 'usb')
     print('got here')
     interpreter.allocate_tensors()
     return interpreter
 
-def process_image(interpreter, image, input_index):     # Process an image, Return a list of detected class ids and positions
+def process_image(interpreter, image, input_index):
+    r"""Process an image, Return a list of detected class ids and positions"""
     input_data = (np.array(image)).astype(np.uint8)
     input_data = input_data.reshape((1, 224, 224, 3))
 
-    interpreter.set_tensor(input_index, input_data)     # Process
+    # Process
+    interpreter.set_tensor(input_index, input_data)
     interpreter.invoke()
 
-    output_details = interpreter.get_output_details()   # Get outputs
+    # Get outputs
+    output_details = interpreter.get_output_details()
+    
+    
+    #print(output_details)
+    #output_details[0] - position
+    # output_details[1] - class id
+    # output_details[2] - score
+    # output_details[3] - count
 
     conf = (interpreter.get_tensor(output_details[0]['index'])/255)
     positions = (interpreter.get_tensor(output_details[1]['index']))
+    print(conf)
+    print(positions)
+    print('\n')
     result = []
 
     for idx, score in enumerate(conf):
         if score > 0.99:
             result.append({'pos': positions[idx]})
 
-    return conf, result
+    return result
 
-def rescale_position(positions):
-    coords = []
-    for obj in positions:
+def display_result(result, frame):
+    r"""Display Detected Objects"""
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    size = 0.6
+    color = (255, 255, 0)  # Blue color
+    thickness = 2
+
+    # position = [ymin, xmin, ymax, xmax]
+    # x * CAMERA_WIDTH
+    # y * CAMERA_HEIGHT
+    for obj in result:
         pos = obj['pos']
         scale_x = CAMERA_WIDTH / INPUT_WIDTH_AND_HEIGHT
         scale_y = CAMERA_HEIGHT / INPUT_WIDTH_AND_HEIGHT
@@ -54,110 +76,66 @@ def rescale_position(positions):
         y1 = int(pos[1] * scale_y)
         x2 = int(pos[2] * scale_x)
         y2 = int(pos[3] * scale_y)
-        coords = [x1, y1, x2, y2]
-    return  coords
 
-def add_coordinates(coords):
-    if len(coords) != 4:
-        raise ValueError("Each row must contain exactly 4 values")
-    coordinates_matrix.append(coords) 
-
-def filter_coordinates(coordinates_matrix):
-    mean_x0 = np.mean([coord[0] for coord in coordinates_matrix])
-    mean_y0 = np.mean([coord[1] for coord in coordinates_matrix])
-    mean_x1 = np.mean([coord[2] for coord in coordinates_matrix])
-    mean_y1 = np.mean([coord[3] for coord in coordinates_matrix])
-
-    std_x0 = np.std([coord[0] for coord in coordinates_matrix])
-    std_y0 = np.std([coord[1] for coord in coordinates_matrix])
-    std_x1 = np.std([coord[2] for coord in coordinates_matrix])
-    std_y1 = np.std([coord[3] for coord in coordinates_matrix])
-
-    filtered_coordinates = []
-    for coord in coordinates_matrix:
-        x0, y0, x1, y1 = coord
-        if abs(x0 - mean_x0) < STD_DEV_FACTOR * std_x0 and abs(y0 - mean_y0) < STD_DEV_FACTOR * std_y0 \
-            and abs(x1 - mean_x1) < STD_DEV_FACTOR * std_x1 and abs(y1 - mean_y1) < STD_DEV_FACTOR * std_y1:
-            filtered_coordinates.append(coord)
-
-    final_x0 = np.mean([coord[0] for coord in filtered_coordinates])
-    final_y0 = np.mean([coord[1] for coord in filtered_coordinates])
-    final_x1 = np.mean([coord[2] for coord in filtered_coordinates])
-    final_y1 = np.mean([coord[3] for coord in filtered_coordinates])
-
-    return final_x0, final_y0, final_x1, final_y1
-
-def bbox_one_direction_center_point(p0, p1):
-    return int((p0 + p1) / 2)
-
-def display_result(positions, frame):       #Display Detected Objects
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    size = 0.6
-    color = (255, 255, 0)  # Blue color
-    thickness = 2
-
-    x0 = positions[0]
-    y0 = positions[1]
-    x1 = positions[2]
-    y1 = positions[3]
-
-    cv2.putText(frame, 'Tennis Ball', (x0, y0), font, size, color, thickness)
-    cv2.rectangle(frame, (x0, y0), (x1, y1), color, thickness)
+        cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
     cv2.imshow('Object Detection', frame)
 
 if __name__ == "__main__":
-    coordinates_matrix = []                            # List to store the coordinates of the detected object
-    top_result = []
-    detection_flag = False
+
     model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
 
+    # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
     cap.set(cv2.CAP_PROP_FPS, 30)
 
     interpreter = load_model(model_path)
-    input_details = interpreter.get_input_details()     # input_details = common.input_size(interpreter)
+    
+    #labels = load_labels(label_path)
+    #labels = dataset.read_label_file(label_path)
+    
+    #input_details = common.input_size(interpreter)
+    input_details = interpreter.get_input_details()
 
-    input_shape = input_details[0]['shape']             # Get Width and Height
+    # Get Width and Height
+    input_shape = input_details[0]['shape']
     height = input_shape[1]
     width = input_shape[2]
     print(height)
     print(width)
 
-    input_index = input_details[0]['index']             # Get input index
+    # Get input index
+    input_index = input_details[0]['index']
+    
+    start_time = 0
 
-    while True:                                         # Process Stream
-        for frame_count in range(FRAME_COUNT):
-            ret, frame = cap.read()
-            if not ret:
-                print('Capture failed')
-                break
-            
-            image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            image = image.resize((width, height))
-
-            conf, result = process_image(interpreter, image, input_index)
-
-            if conf > 0.99:
-                detection_flag = True
-                rescale_position(result)
-                x0, y0, x1, y1 = filter_coordinates(coordinates_matrix)
-                top_result = [x0, y0, x1, y1]
-                bbox_center_x = bbox_one_direction_center_point(x0, x1)
+    # Process Stream
+    while True:
+        ret, frame = cap.read()
         
-        if detection_flag:
-            if bbox_center_x < CENTER_X:
-                print('Move Right')
-            else:
-                print('Move Left')
-            display_result(top_result, frame)
-        else:
-            display_result([0, 0, 0, 0], frame)
+        if not ret:
+            print('Capture failed')
+            break
+        
+        image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        image = image.resize((width, height))
 
+        top_result = process_image(interpreter, image, input_index)
+
+        end = time.time()
+        display_result(top_result, frame)
+        fps = round(1/(end-start_time),2)
+        #if(round(time.time()) % 2 == 0):
+            #print('FPS: ' + str(fps))
+        
+        start_time = end
+        
         key = cv2.waitKey(1)
         if key == 27:  # esc
             break
+
     cap.release()
-    cv2.destroyAllWindows() 
+    cv2.destroyAllWindows()
