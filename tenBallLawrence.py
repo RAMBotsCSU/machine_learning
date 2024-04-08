@@ -102,7 +102,7 @@ def calculate_direction(X, frame_width=224):
         print("Turn Left!")
     elif increment <= X < (2 * increment):
         print("Centered!")
-    elif
+    else:
         print("Turn Right!")
 
 
