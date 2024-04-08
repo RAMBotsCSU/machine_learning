@@ -78,8 +78,8 @@ def display_result(result, frame):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
         center = bboxCenterPoint(x1, y1, x2, y2)
-        calculate_direction(center)
-        
+        calculate_direction(center[0])
+
     cv2.imshow('Object Detection', frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
