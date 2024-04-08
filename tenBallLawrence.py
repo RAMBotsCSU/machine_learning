@@ -97,9 +97,14 @@ def bboxCenterPoint(x1, y1, x2, y2):
     return [bbox_center_x, bbox_center_y]
 
 def calculate_direction(X, frame_width=224):
-    frame_center_x = frame_width / 2
+    increment = frame_width / 3
+    if 0 <= X < increment:
+        print("Turn Left!")
+    elif increment <= X < (2 * increment):
+        print("Centered!")
+    elif
+        print("Turn Right!")
 
-    return X - frame_center_x
 
 if __name__ == "__main__":
 
