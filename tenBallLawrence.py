@@ -77,7 +77,7 @@ def display_result(result, frame):
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
-        center = bboxCenterPoint(pos)
+        center = bboxCenterPoint(x1, y1, x2, y2)
 
         vector_x = calculate_direction(center[0])
 
@@ -90,9 +90,9 @@ def display_result(result, frame):
 
     cv2.imshow('Object Detection', frame)
 
-def bboxCenterPoint(position):
-    bbox_center_x = int((position[0] + position[2]) / 2)
-    bbox_center_y = int((position[1] + position[3]) / 2)
+def bboxCenterPoint(x1, y1, x2, y2):
+    bbox_center_x = int((x1 + x2) / 2)
+    bbox_center_y = int((y1 + y2) / 2)
 
     return [bbox_center_x, bbox_center_y]
 
