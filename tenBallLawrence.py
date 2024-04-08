@@ -89,8 +89,8 @@ def bboxCenterPoint(x1, y1, x2, y2):
 
     return [bbox_center_x, bbox_center_y]
 
-def calculate_direction(X, frame_width=224):
-    increment = frame_width / 3
+def calculate_direction(X, CAMERA_WIDTH):
+    increment = CAMERA_WIDTH / 3
     if ((2*increment) <= X <= 224):
         print("Turn Right!")
     elif (0 <= X < increment):
