@@ -45,7 +45,7 @@ def process_image(interpreter, image, input_index):
     # output_details[2] - score
     # output_details[3] - count
 
-    conf = (interpreter.get_tensor(output_details[0]['index']))
+    conf = (interpreter.get_tensor(output_details[0]['index'])/225)
     positions = (interpreter.get_tensor(output_details[1]['index']))
     print(conf, positions)
     result = []
