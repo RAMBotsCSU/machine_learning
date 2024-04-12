@@ -2,6 +2,7 @@ import re
 import cv2
 import numpy as np
 import time
+import math
 from pycoral.utils import edgetpu
 from pycoral.utils import dataset
 from pycoral.adapters import common
@@ -51,10 +52,16 @@ def process_image(interpreter, image, input_index):
     result = []
 
     for idx, score in enumerate(conf):
+        pos = positions[0]
+        print(area(pos))
         if score > 0.99:
             result.append({'pos': positions[idx]})
 
     return result
+
+
+def area(pos):
+    return math.sqrt((pos[2] - pos[0])**2 + (pos[3] - pos[1])**2)
 
 def display_result(result, frame):
     r"""Display Detected Objects"""
@@ -105,7 +112,7 @@ if __name__ == "__main__":
 
     # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
-    print(cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT)
+    print(cap.get())
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
     cap.set(cv2.CAP_PROP_FPS, 30)
