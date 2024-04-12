@@ -48,13 +48,13 @@ def process_image(interpreter, image, input_index):
 
     positions = (interpreter.get_tensor(output_details[0]['index']))
     conf = (interpreter.get_tensor(output_details[1]['index'])/255)
-    print(positions)
     result = []
 
     for idx, score in enumerate(conf):
         pos = positions[0]
-        print(area(pos))
-        if score > 0.99:
+        areaPos = area(pos)
+        print(areaPos)
+        if score > 0.99 and areaPos > 350:
             result.append({'pos': positions[idx]})
 
     return result
