@@ -101,7 +101,7 @@ def calculate_direction(X, frame_width=CAMERA_WIDTH):
 
 if __name__ == "__main__":
 
-    model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
+    model_path = 'tennisBall/BallTrackingModelQuant_edgetpu.tflite'
 
     # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
