@@ -105,6 +105,7 @@ if __name__ == "__main__":
 
     # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
+    print(cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
     cap.set(cv2.CAP_PROP_FPS, 30)
