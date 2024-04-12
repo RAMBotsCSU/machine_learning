@@ -46,12 +46,10 @@ def process_image(interpreter, image, input_index):
     # output_details[3] - count
 
     positions = (interpreter.get_tensor(output_details[0]['index']))
-    conf = (interpreter.get_tensor(output_details[1]['index']))
-    print(conf)
+    conf = (interpreter.get_tensor(output_details[1]['index'])/255)
     result = []
 
     for idx, score in enumerate(conf):
-        print(conf)
         if score > 0.99:
             result.append({'pos': positions[idx]})
 
