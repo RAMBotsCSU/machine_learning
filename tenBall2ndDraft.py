@@ -55,10 +55,10 @@ def process_image(interpreter, image, input_index):
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
-        if score > 0.99 and areaPos > 350 and prevAreaPos > 350:
+        if score > 0.99 and areaPos > 350 and process_image.prevAreaPos > 350:
             result.append({'pos': positions[idx]})
-            print(prevAreaPos)
-        prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
+            print(process_image.prevAreaPos)
+        process_image.prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
 
 
     return result
