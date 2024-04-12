@@ -50,8 +50,8 @@ def process_image(interpreter, image, input_index):
     result = []
 
     for idx, score in enumerate(conf):
-        print(conf)
-        if score[0] > 0.99:
+        print(score)
+        if score > 0.99:
             result.append({'pos': positions[idx]})
 
     return result
@@ -85,7 +85,6 @@ def display_result(result, frame):
 
 def bboxCenterPoint(x1, y1, x2, y2):
     bbox_center_x = int((x1 + x2) / 2)
-    print(bbox_center_x)
     bbox_center_y = int((y1 + y2) / 2)
 
     return [bbox_center_x, bbox_center_y]
