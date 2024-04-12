@@ -60,8 +60,12 @@ def process_image(interpreter, image, input_index):
     return result
 
 
+def distance(point1, point2):
+    return math.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
+
 def area(pos):
-    return math.sqrt((pos[2] - pos[0])**2 + (pos[3] - pos[1])**2)
+    side_length = distance((pos[0], pos[1]), (pos[2], pos[3]))
+    return side_length ** 2
 
 def display_result(result, frame):
     r"""Display Detected Objects"""
