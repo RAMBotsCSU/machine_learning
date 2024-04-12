@@ -47,6 +47,7 @@ def process_image(interpreter, image, input_index):
 
     positions = (interpreter.get_tensor(output_details[0]['index']))
     conf = (interpreter.get_tensor(output_details[1]['index'])/255)
+    print(positions)
     result = []
 
     for idx, score in enumerate(conf):
