@@ -18,6 +18,7 @@ from PIL import Image
 CAMERA_WIDTH = 640  #640 to fill whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
 INPUT_WIDTH_AND_HEIGHT = 224
+prevAreaPos = 0
 
 def load_model(model_path):
     r"""Load TFLite model, returns a Interpreter instance."""
@@ -53,9 +54,10 @@ def process_image(interpreter, image, input_index):
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
-        print(areaPos)
-        if score > 0.99 and areaPos > 350:
+        if score > 0.99 and areaPos > 350 and prevAreaPos > 350:
             result.append({'pos': positions[idx]})
+        prevAreaPos = areaPos
+
 
     return result
 
