@@ -50,12 +50,13 @@ def process_image(interpreter, image, input_index):
     conf = (interpreter.get_tensor(output_details[1]['index'])/255)
     result = []
 
+    prevAreaPos = 0  # Initialize prevAreaPos outside the loop
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
         if score > 0.99 and areaPos > 350 and prevAreaPos > 350:
             result.append({'pos': positions[idx]})
-        prevAreaPos = areaPos
+        prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
 
 
     return result
@@ -138,7 +139,6 @@ if __name__ == "__main__":
 
     # Get input index
     input_index = input_details[0]['index']
-    prevAreaPos = 0
     start_time = 0
 
     # Process Stream
