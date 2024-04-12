@@ -46,7 +46,7 @@ def process_image(interpreter, image, input_index):
     # output_details[2] - score
     # output_details[3] - count
 
-    #process_image.prevAreaPos = getattr(process_image, "prevAreaPos", 0)
+    process_image.prevAreaPos = getattr(process_image, "prevAreaPos", 0)
 
     positions = (interpreter.get_tensor(output_details[0]['index']))
     conf = (interpreter.get_tensor(output_details[1]['index'])/255)
@@ -55,10 +55,9 @@ def process_image(interpreter, image, input_index):
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
-        if score > 0.99 and areaPos > 350: #and process_image.prevAreaPos > 350:
+        if score > 0.99 and areaPos > 350 and process_image.prevAreaPos > 400:
             result.append({'pos': positions[idx]})
-            #print(process_image.prevAreaPos)
-        #process_image.prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
+        process_image.prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
 
 
     return result
