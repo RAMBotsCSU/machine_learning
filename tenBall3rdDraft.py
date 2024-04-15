@@ -54,6 +54,8 @@ def process_image(interpreter, image, input_index):
 
     print(positions, conf)
 
+    print(positions, conf)
+
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
