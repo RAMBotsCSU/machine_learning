@@ -52,6 +52,8 @@ def process_image(interpreter, image, input_index):
     conf = (interpreter.get_tensor(output_details[1]['index'])/255)
     result = []
 
+    print(positions, conf)
+
     for idx, score in enumerate(conf):
         pos = positions[0]
         areaPos = area(pos)
