@@ -48,11 +48,9 @@ def process_image(interpreter, image, input_index):
 
     process_image.prevAreaPos = getattr(process_image, "prevAreaPos", 0)
 
-    positions = (interpreter.get_tensor(output_details[0]['index']))
-    conf = (interpreter.get_tensor(output_details[1]['index'])/255)
+    conf = (interpreter.get_tensor(output_details[0]['index'])/255)
+    positions = (interpreter.get_tensor(output_details[1]['index']))
     result = []
-
-    print(positions, conf)
 
     print(positions, conf)
 
