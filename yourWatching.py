@@ -76,7 +76,7 @@ def display_result(result, frame):
         centers.append(center)
 
         # Draw line from object center to previous position
-        cv2.line(frame, centers[centers.len() - 1], center, color, thickness=2)
+        cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
 
     cv2.imshow("You're Watching Disney Channel", frame)
 
