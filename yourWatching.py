@@ -76,8 +76,8 @@ def display_result(result, frame):
         centers.append(center)
 
         # Draw line from object center to previous position
-    if(len(centers) is not 0):
-        cv2.imshow(frame)
+    if(len(centers) is 1):
+        cv2.line(frame, centers[0], center, color, thickness=2)
     else:
         cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
 
