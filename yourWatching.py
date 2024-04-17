@@ -76,7 +76,10 @@ def display_result(result, frame):
         centers.append(center)
 
         # Draw line from object center to previous position
-    cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
+    if(len(centers) is not 0):
+        cv2.imshow(frame)
+    else:
+        cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
 
 def bboxCenterPoint(x1, y1, x2, y2):
     bbox_center_x = int((x1 + x2) / 2)
