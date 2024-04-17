@@ -12,6 +12,7 @@ from PIL import Image
 CAMERA_WIDTH = 640  # 640 to fill the whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480  # 480 to fill the whole screen, 240 for GUI component
 INPUT_WIDTH_AND_HEIGHT = 224
+global centers
 centers = []
 
 
