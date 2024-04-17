@@ -79,7 +79,7 @@ def display_result(result, frame):
         previousSize = len(centers) - 1
 
         # Draw line from object center to previous position
-        if len(centers) >= 2:
+        if len(centers) > 2:
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
 
