@@ -12,6 +12,7 @@ from PIL import Image
 CAMERA_WIDTH = 640  # 640 to fill the whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480  # 480 to fill the whole screen, 240 for GUI component
 INPUT_WIDTH_AND_HEIGHT = 224
+centers = 0
 
 def load_model(model_path):
     interpreter = edgetpu.make_interpreter(model_path, device='usb')
@@ -73,9 +74,9 @@ def display_result(result, frame):
         calculate_direction(center[0])
 
         # Draw line from object center to previous position
-        if(display_result.prev_center):
+        if centers is not 0:
             cv2.line(frame, display_result.prev_center, center, color, thickness=2)
-        display_result.prev_center = center  # Store current center for next frame
+        centers = center  # Store current center for next frame
 
     cv2.imshow("You're Watching Disney Channel", frame)
 
