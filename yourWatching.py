@@ -73,9 +73,10 @@ def display_result(result, frame):
         calculate_direction(center[0])
 
         # Draw line from object center to previous position
-        cv2.line(frame, display_result.prev_center, center, color, thickness=2)
+        if(display_result.prev_center):
+            cv2.line(frame, display_result.prev_center, center, color, thickness=2)
         display_result.prev_center = center  # Store current center for next frame
-        
+
     cv2.imshow("You're Watching Disney Channel", frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
