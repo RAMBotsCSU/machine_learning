@@ -58,6 +58,8 @@ def display_result(result, frame):
     color = (255, 255, 0)  # Blue color
     thickness = 2
 
+    timer = time.time()
+
     # position = [ymin, xmin, ymax, xmax]
     for obj in result:
         pos = obj['pos']
@@ -74,8 +76,7 @@ def display_result(result, frame):
         center = bboxCenterPoint(x1, y1, x2, y2)
         calculate_direction(center[0])
         centers.append(center)
-        previousSize = len(centers)
-        timer = time.time()
+        previousSize = len(centers) - 1
 
         # Draw line from object center to previous position
         if len(centers) >= 2:
