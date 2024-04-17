@@ -77,7 +77,7 @@ def display_result(result, frame):
 
         # Draw line from object center to previous position
     if len(centers) <= 1:
-        cv2.imshow(frame)
+        cv2.imshow("You're Watching Disney Channel", frame)
     else:
         cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
 
