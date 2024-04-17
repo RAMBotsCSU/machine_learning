@@ -76,10 +76,10 @@ def display_result(result, frame):
         centers.append(center)
 
         # Draw line from object center to previous position
-        if len(centers) <= 1:
+        if len(centers) <= 2:
             cv2.imshow("You're Watching Disney Channel!", frame)
         else:
-            cv2.line(frame, centers[len(centers) - 1], center, color, thickness=2)
+            cv2.line(frame, centers[len(centers) - 2], center, color, thickness=2)
             cv2.imshow("You're Watching Disney Channel!", frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
