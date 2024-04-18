@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     # Get input index
     input_index = input_details[0]['index']
-    start_time = 0
+    start_time = time.time()
 
     # Process Stream
     while True:
@@ -129,13 +129,14 @@ if __name__ == "__main__":
 
         top_result = process_image(interpreter, image, input_index)
 
-        end = time.time()
+        #end = time.time()
         display_result(top_result, frame)
-        fps = round(1/(end-start_time),2)
+        #fps = round(1/(end-start_time),2)
         
-        start_time = end
         if start_time is 10:
             centers = []
+            start_time = 0
+            start_time = time.time()
         
         key = cv2.waitKey(1)
         if key == 27:  # esc
