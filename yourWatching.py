@@ -57,6 +57,8 @@ def display_result(result, frame, start_time):
     color = (255, 255, 0)  # Blue color
     thickness = 2
 
+    centers = []
+
     # position = [ymin, xmin, ymax, xmax]
     for obj in result:
         pos = obj['pos']
