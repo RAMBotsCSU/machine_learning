@@ -134,6 +134,8 @@ if __name__ == "__main__":
         fps = round(1/(end-start_time),2)
         
         start_time = end
+        if start_time is 10:
+            centers = []
         
         key = cv2.waitKey(1)
         if key == 27:  # esc
