@@ -57,8 +57,6 @@ def display_result(result, frame, start_time):
     color = (255, 255, 0)  # Blue color
     thickness = 2
 
-    centers = []
-
     # position = [ymin, xmin, ymax, xmax]
     for obj in result:
         pos = obj['pos']
@@ -142,6 +140,10 @@ if __name__ == "__main__":
         key = cv2.waitKey(1)
         if key == 27:  # esc
             break
+
+        key2 = cv2.waitKey(1)
+        if key == 27:
+            centers.clear()
 
     cap.release()
     cv2.destroyAllWindows()
