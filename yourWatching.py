@@ -52,6 +52,7 @@ def area(pos):
     return side_length ** 2
 
 def display_result(result, frame, start_time):
+    global centers
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
     color = (255, 255, 0)  # Blue color
@@ -137,11 +138,11 @@ if __name__ == "__main__":
         display_result(top_result, frame, start_time)
         #fps = round(1/(end-start_time),2)
               
-        key = cv2.waitKey(1)
-        if key == 27:  # esc
-            break
+        #key = cv2.waitKey(1)
+        #if key == 27:  # esc
+            #break
 
-        key2 = cv2.waitKey(1)
+        key = cv2.waitKey(1)
         if key == 27:
             centers.clear()
 
