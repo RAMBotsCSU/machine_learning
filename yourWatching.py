@@ -68,9 +68,9 @@ def display_result(result, frame):
         x2 = int(pos[2] * scale_x)
         y2 = int(pos[3] * scale_y)
 
-        frame = cv2.flip(frame, 1)
-        cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
-        cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
+        frame2 = cv2.flip(frame, 1)
+        cv2.putText(frame2, 'Tennis Ball', (x1, y1), font, size, color, thickness)
+        cv2.rectangle(frame2, (x1, y1), (x2, y2), color, thickness)
 
         center = bboxCenterPoint(x1, y1, x2, y2)
         #calculate_direction(center[0])
@@ -79,9 +79,9 @@ def display_result(result, frame):
         # Draw line from object center to previous position
         if len(centers) > 2:
             for previous, current in zip(centers, centers[1:]):
-                cv2.line(frame, previous, current, color, thickness=2)
+                cv2.line(frame2, previous, current, color, thickness=2)
 
-    cv2.imshow("You're Watching Disney Channel!", frame)
+    cv2.imshow("You're Watching Disney Channel!", frame2)
 
     key = cv2.waitKey(1)
     if key == 27: #esc
