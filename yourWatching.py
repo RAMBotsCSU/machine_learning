@@ -51,7 +51,7 @@ def area(pos):
     side_length = distance((pos[0], pos[1]), (pos[2], pos[3]))
     return side_length ** 2
 
-def display_result(result, frame):
+def display_result(result, frame, start_time):
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
     color = (255, 255, 0)  # Blue color
@@ -79,6 +79,10 @@ def display_result(result, frame):
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
 
+        if (start_time % 10) == 0:
+            centers = []
+
+    cv2.flip(frame, 1)
     cv2.imshow("You're Watching Disney Channel!", frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
@@ -132,12 +136,7 @@ if __name__ == "__main__":
         #end = time.time()
         display_result(top_result, frame)
         #fps = round(1/(end-start_time),2)
-        
-        if start_time is 10:
-            centers = []
-            start_time = 0
-            start_time = time.time()
-        
+              
         key = cv2.waitKey(1)
         if key == 27:  # esc
             break
