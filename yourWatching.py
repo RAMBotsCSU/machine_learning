@@ -12,9 +12,7 @@ from PIL import Image
 CAMERA_WIDTH = 640  # 640 to fill the whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480  # 480 to fill the whole screen, 240 for GUI component
 INPUT_WIDTH_AND_HEIGHT = 224
-global centers
 centers = []
-
 
 def load_model(model_path):
     interpreter = edgetpu.make_interpreter(model_path, device='usb')
@@ -59,8 +57,6 @@ def display_result(result, frame):
     color = (255, 255, 0)  # Blue color
     thickness = 2
 
-    timer = time.time()
-
     # position = [ymin, xmin, ymax, xmax]
     for obj in result:
         pos = obj['pos']
@@ -77,15 +73,11 @@ def display_result(result, frame):
         center = bboxCenterPoint(x1, y1, x2, y2)
         calculate_direction(center[0])
         centers.append(center)
-        previousSize = len(centers) - 1
 
         # Draw line from object center to previous position
         if len(centers) > 2:
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
-
-    if timer is 10 and (previousSize == len(centers)):
-        centers = []
 
     cv2.imshow("You're Watching Disney Channel!", frame)
 
