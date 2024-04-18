@@ -138,13 +138,9 @@ if __name__ == "__main__":
         display_result(top_result, frame, start_time)
         #fps = round(1/(end-start_time),2)
               
-        #key = cv2.waitKey(1)
-        #if key == 27:  # esc
-            #break
-
         key = cv2.waitKey(1)
-        if key == 27:
-            centers.clear()
+        if key == 27:  # esc
+            break
 
     cap.release()
     cv2.destroyAllWindows()
