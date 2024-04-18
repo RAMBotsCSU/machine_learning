@@ -80,8 +80,7 @@ def display_result(result, frame):
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
 
-    cv2.flip(frame, 0)
-    cv2.imshow("You're Watching Disney Channel!", frame)
+    cv2.imshow("You're Watching Disney Channel!", cv2.flip(frame, 1))
 
     key = cv2.waitKey(1)
     if key == 27: #esc
