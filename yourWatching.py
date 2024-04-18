@@ -134,7 +134,7 @@ if __name__ == "__main__":
         top_result = process_image(interpreter, image, input_index)
 
         #end = time.time()
-        display_result(top_result, frame)
+        display_result(top_result, frame, start_time)
         #fps = round(1/(end-start_time),2)
               
         key = cv2.waitKey(1)
