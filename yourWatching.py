@@ -68,6 +68,7 @@ def display_result(result, frame):
         x2 = int(pos[2] * scale_x)
         y2 = int(pos[3] * scale_y)
 
+        cv2.flip(frame, 1)
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
@@ -80,7 +81,7 @@ def display_result(result, frame):
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
 
-    cv2.imshow("You're Watching Disney Channel!", cv2.flip(frame, 1))
+    cv2.imshow("You're Watching Disney Channel!", frame)
 
     key = cv2.waitKey(1)
     if key == 27: #esc
