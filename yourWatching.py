@@ -80,12 +80,12 @@ def display_result(result, frame):
             for previous, current in zip(centers, centers[1:]):
                 cv2.line(frame, previous, current, color, thickness=2)
 
-        key = cv2.waitKey(1)
-        if key == 27: #esc
-            centers.clear()
-
     cv2.flip(frame, 1)
     cv2.imshow("You're Watching Disney Channel!", frame)
+
+    key = cv2.waitKey(1)
+    if key == 27: #esc
+        centers.clear()
 
 def bboxCenterPoint(x1, y1, x2, y2):
     bbox_center_x = int((x1 + x2) / 2)
