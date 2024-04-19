@@ -90,8 +90,6 @@ def display_result(result, frame, start_time):
         x2 = int(pos[2] * scale_x)
         y2 = int(pos[3] * scale_y)
 
-        print(x1, y1)
-
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
@@ -110,13 +108,13 @@ def calculate_direction(X, start, frame_width=CAMERA_WIDTH):
     increment = frame_width / 3
     if ((2*increment) <= X <= frame_width):
         end = time.perf_counter()
-        #print("Turn Right! Latency: %s seconds", (end - start))
+        print("Turn Right! Latency: %s seconds", (end - start))
     elif (0 <= X < increment):
         end = time.perf_counter()
-        #print("Turn Lefft! Latency: %s seconds", (end - start))
+        print("Turn Lefft! Latency: %s seconds", (end - start))
     elif (increment <= X < (2*increment)):
         end = time.perf_counter()
-        #print("Centered! Latency: %s seconds", (end - start))
+        print("Centered! Latency: %s seconds", (end - start))
 
 
 if __name__ == "__main__":
