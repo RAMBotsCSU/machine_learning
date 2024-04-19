@@ -2,6 +2,7 @@ import re
 import cv2
 import numpy as np
 import time
+import math
 from pycoral.utils import edgetpu
 from pycoral.utils import dataset
 from pycoral.adapters import common
@@ -45,17 +46,32 @@ def process_image(interpreter, image, input_index):
     # output_details[2] - score
     # output_details[3] - count
 
-    conf = (interpreter.get_tensor(output_details[0]['index'])/225)
-    positions = (interpreter.get_tensor(output_details[1]['index']))
+    process_image.prevAreaPos = getattr(process_image, "prevAreaPos", 0)
+
+    positions = (interpreter.get_tensor(output_details[0]['index']))
+    conf = (interpreter.get_tensor(output_details[1]['index'])/255)
     result = []
 
     for idx, score in enumerate(conf):
-        if score[0] > 0.99:
+        pos = positions[0]
+        areaPos = area(pos)
+        if score > 0.99 and  (350 <= areaPos < 50176) and process_image.prevAreaPos > 400:
             result.append({'pos': positions[idx]})
+            print("Area: ", areaPos)
+        process_image.prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
+
 
     return result
 
-def display_result(result, frame):
+
+def distance(point1, point2):
+    return math.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
+
+def area(pos):
+    side_length = distance((pos[0], pos[1]), (pos[2], pos[3]))
+    return side_length ** 2
+
+def display_result(result, frame, start_time):
     r"""Display Detected Objects"""
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
@@ -78,30 +94,32 @@ def display_result(result, frame):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
         center = bboxCenterPoint(x1, y1, x2, y2)
-        calculate_direction(center[0])
+        calculate_direction(center[0], start_time)
 
     cv2.imshow('Object Detection', frame)
 
 def bboxCenterPoint(x1, y1, x2, y2):
     bbox_center_x = int((x1 + x2) / 2)
-    print(bbox_center_x)
     bbox_center_y = int((y1 + y2) / 2)
 
     return [bbox_center_x, bbox_center_y]
 
-def calculate_direction(X, frame_width=CAMERA_WIDTH):
+def calculate_direction(X, start, frame_width=CAMERA_WIDTH):
     increment = frame_width / 3
     if ((2*increment) <= X <= frame_width):
-        print("Turn Right!")
+        end = time.perf_counter()
+        print("Turn Right! Latency: %s seconds", (end - start))
     elif (0 <= X < increment):
-        print("Turn Left!")
+        end = time.perf_counter()
+        print("Turn Lefft! Latency: %s seconds", (end - start))
     elif (increment <= X < (2*increment)):
-        print("Centered!")
+        end = time.perf_counter()
+        print("Centered! Latency: %s seconds", (end - start))
 
 
 if __name__ == "__main__":
 
-    model_path = 'tennisBall/BallTrackingModel_edgetpu.tflite'
+    model_path = 'tennisBall/BallTrackingModelQuant_edgetpu.tflite'
 
     # label_path = 'data/coco_labels.txt'
     cap = cv2.VideoCapture(0)
@@ -126,11 +144,11 @@ if __name__ == "__main__":
 
     # Get input index
     input_index = input_details[0]['index']
-    
-    start_time = 0
 
     # Process Stream
     while True:
+        start_time = time.perf_counter()
+
         ret, frame = cap.read()
         
         if not ret:
@@ -142,13 +160,7 @@ if __name__ == "__main__":
 
         top_result = process_image(interpreter, image, input_index)
 
-        end = time.time()
-        display_result(top_result, frame)
-        fps = round(1/(end-start_time),2)
-        #if(round(time.time()) % 2 == 0):
-            #print('FPS: ' + str(fps))
-        
-        start_time = end
+        display_result(top_result, frame, start_time)
         
         key = cv2.waitKey(1)
         if key == 27:  # esc

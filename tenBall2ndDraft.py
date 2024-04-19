@@ -90,6 +90,15 @@ def display_result(result, frame, start_time):
         x2 = int(pos[2] * scale_x)
         y2 = int(pos[3] * scale_y)
 
+        if x1 == 57:
+            x1 = 0
+        if x2 == 57:
+            x2 == 0
+        if y1 == 42:
+            y1 = 42
+        if y2 == 42:
+            y2 == 42
+
         cv2.putText(frame, 'Tennis Ball', (x1, y1), font, size, color, thickness)
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
