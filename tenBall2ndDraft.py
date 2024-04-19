@@ -57,7 +57,7 @@ def process_image(interpreter, image, input_index):
         areaPos = area(pos)
         if score > 0.99 and  (350 <= areaPos < 50176) and process_image.prevAreaPos > 400:
             result.append({'pos': positions[idx]})
-            print(areaPos)
+            print("Area: ", areaPos)
         process_image.prevAreaPos = areaPos  # Update prevAreaPos for the next iteration
 
 
