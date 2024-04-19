@@ -71,7 +71,7 @@ def area(pos):
     side_length = distance((pos[0], pos[1]), (pos[2], pos[3]))
     return side_length ** 2
 
-def display_result(result, frame):
+def display_result(result, frame, start_time):
     r"""Display Detected Objects"""
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
@@ -94,7 +94,7 @@ def display_result(result, frame):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
         center = bboxCenterPoint(x1, y1, x2, y2)
-        calculate_direction(center[0])
+        calculate_direction(center[0], start_time)
 
     cv2.imshow('Object Detection', frame)
 
@@ -104,14 +104,17 @@ def bboxCenterPoint(x1, y1, x2, y2):
 
     return [bbox_center_x, bbox_center_y]
 
-def calculate_direction(X, frame_width=CAMERA_WIDTH):
+def calculate_direction(X, start, frame_width=CAMERA_WIDTH):
     increment = frame_width / 3
     if ((2*increment) <= X <= frame_width):
-        print("Turn Right!")
+        end = time.perf_counter()
+        print("Turn Right! Latency: %s seconds", (end - start))
     elif (0 <= X < increment):
-        print("Turn Left!")
+        end = time.perf_counter()
+        print("Turn Lefft! Latency: %s seconds", (end - start))
     elif (increment <= X < (2*increment)):
-        print("Centered!")
+        end = time.perf_counter()
+        print("Centered! Latency: %s seconds", (end - start))
 
 
 if __name__ == "__main__":
@@ -141,10 +144,11 @@ if __name__ == "__main__":
 
     # Get input index
     input_index = input_details[0]['index']
-    start_time = 0
 
     # Process Stream
     while True:
+        start_time = time.perf_counter()
+
         ret, frame = cap.read()
         
         if not ret:
@@ -156,13 +160,7 @@ if __name__ == "__main__":
 
         top_result = process_image(interpreter, image, input_index)
 
-        end = time.time()
-        display_result(top_result, frame)
-        fps = round(1/(end-start_time),2)
-        #if(round(time.time()) % 2 == 0):
-            #print('FPS: ' + str(fps))
-        
-        start_time = end
+        display_result(top_result, frame, start_time)
         
         key = cv2.waitKey(1)
         if key == 27:  # esc
