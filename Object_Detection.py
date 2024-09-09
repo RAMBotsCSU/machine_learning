@@ -21,7 +21,7 @@ from PIL import Image
 CAMERA_WIDTH = 320  #640 to fill whole screen, 320 for GUI component
 CAMERA_HEIGHT = 480 #480 to fill whole screen, 240 for GUI component
  
-
+#this is a test
 def load_labels(label_path):
     r"""Returns a list of labels"""
     with open(label_path) as f:
