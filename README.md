@@ -8,15 +8,34 @@ The tested model can be downloaded [here](https://storage.googleapis.com/downloa
 
 <img src="https://user-images.githubusercontent.com/112744753/196563382-2745e707-77d6-42d5-98a0-a29530e21c9a.png" width=50% height=50%>
 
+Directories:
+------
+
+| Directories        | Description           |
+| ------------- |-------------|
+| data        |  machine learning model and labels     |
+| tennisBall | Tennis ball learning model
+| test_programs        | test programs used in creating object_detection.py      |
+
+
 Files:
 ------
 
-| File        | Description           |
+| Files       | Description           |
 | ------------- |-------------|
 | README      | this file |
-| data        |  machine learning model and labels     |
-| test_programs        | test programs used in creating object_detection.py      |
 | object_detection.py        | python object detection using webcam and Google Coral      |
+| lidar_inference.py | Takes the LiDAR information from the LiDAR sensor and outputs the data |
+| lidar_model.tflite |  |
+| lidar_model_quantized.tflite | |
+| lidar_model_quantized_edgetpu.tflite | |
+| output.jpg | | 
+| tenBall1stDraft.py | Legacy tennis ball tracking |
+| tenBall2ndDrift.py | Legacy tennis ball tracking |
+| tennisBallTracing.py | Tennis ball object detection |
+| test_cameraNEW.py | Object Detection |
+| youreWatching.py | Object Detection |
+
 
 
   
